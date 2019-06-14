@@ -1,0 +1,110 @@
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css");
+
+/* .home{
+  background-color: rgb(54, 54, 54) !important
+} */
+
+#title {
+    padding-left: 15px;
+  }
+
+
+.navbarOwl{
+    background-color: #592316
+}
+
+.head{
+    background-color: #BF6E26
+}
+
+.boxTitle{
+    background-color: #bf6e26 !important;
+    height: 50px;
+    color: white;
+    padding-top: 8px;
+    text-align: left
+}
+
+.boxContent{
+    background-color:#D9B97E;
+    height: auto !important;
+}
+
+.margin5{
+    margin: 5%
+}
+
+.bookCoverBig{
+    height: 330px;
+    width: 250px;  
+
+}
+
+.bookInforHeaders{
+
+    color: #592316;
+}
+
+.alignLeft{
+    text-align: left
+}
+.alignRight{
+    text-align: right
+}
+
+.buttonColor{
+    background-color: #592316;
+    color: white
+}
+
+.buttonColor:hover{
+    opacity: 0.9;
+}
+
+template{
+    background:#DACEB9;
+}
+
+.darkBrown {
+  background-color: #592316 !important
+}
+
+.white {
+  color: white !important
+}
+
+
+
+/* Basic styles */
+/*.rate {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+input {
+  display: none;
+}
+
+label {
+  float: right;
+  font-size: 0;
+  color: #d9d9d9;
+}
+
+label:before {
+  content: "\f005";
+  font-family: FontAwesome;
+  font-size: 40px;
+}
+
+label:hover,
+label:hover ~ label {
+  color: #fcd000;
+  transition: 0.2s;
+}
+
+input:checked ~ label {
+  color: #fcd000;
+}*/
