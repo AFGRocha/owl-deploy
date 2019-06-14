@@ -19,7 +19,6 @@ import Suggestions from './views/backoffice/Suggestions.vue'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',

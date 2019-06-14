@@ -84,16 +84,11 @@
   </div>
 </template>
 
-<style scoped>
+<style>
 .boxContent {
   background-color: #d9b97e;
   height: 260px;
   color: #592316;
-}
-
-#margin {
-  padding: 15px 15px 15px 15px;
-  
 }
 
 #profilePhoto {
@@ -137,6 +132,8 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import swal from "sweetalert2";
+import axios from "axios";
+
 export default {
   components: {
     Header,
@@ -144,11 +141,11 @@ export default {
   },
   data: function() {
     return {
-      users: this.$store.state.users,
+      users: [],
       userLoggedIn: localStorage.getItem("userLoggedIn"),
-      requisitions: this.$store.state.requisitions,
-      books: this.$store.state.books,
-      reviews: this.$store.state.reviews,
+      requisitions: [],
+      books: [],
+      //reviews: this.$store.state.reviews,
       clicked: false,
       user: {
         firstName: "",
@@ -157,69 +154,80 @@ export default {
         favTags: [],
         photo: ""
       },
-      tags: this.$store.state.tags,
+      tags: [],
       testes: [],
+      testes2: [],
       clickedBook: 0,
-      achReq: 0,
-      achRev: 0,
-      achVot: 0
+      
     };
   },
 
   created() {
-    this.user.firstName = this.users[this.userLoggedIn].firstName;
-    this.user.lastName = this.users[this.userLoggedIn].lastName;
-    this.user.email = this.users[this.userLoggedIn].email;
-    this.user.favTags = this.users[this.userLoggedIn].favTags;
-    this.user.photo = this.users[this.userLoggedIn].photo;
-    this.achReq = this.achievementReq();
-    this.achRev = this.achievementRev();
-    this.achVot = this.achievementVot();
-    for (let i = 0; i < this.user.favTags.length; i++) {
-      for (let j = 0; j < this.tags.length; j++) {
-        if (this.user.favTags[i] == this.tags[j].tagId) {
-          this.testes.push(this.tags[i].tagDescription);
+    axios
+      .get("http://localhost:3000/users")
+      .then(res => {
+        this.users = res.data;
+        console.log("users:");
+        console.log(this.users);
+
+        for (let i = 0; i < this.users.length; i++) {
+          if (this.users[i]._id == this.userLoggedIn) {
+            this.testes = this.users[i].favTags;
+            console.log(this.testes);
+          }
         }
-      }
-    }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .get("http://localhost:3000/tags")
+      .then(res => {
+        this.tags = res.data;
+        console.log("tags:");
+        console.log(this.tags);
+        for (let i = 0; i < this.tags.length; i++) {
+          for (let j = 0; j < this.testes.length; j++) {
+            if (this.tags[i]._id == this.testes[j]) {
+              this.testes2.push(this.tags[i].tagDescription);
+            }
+          }
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .get("http://localhost:3000/books")
+      .then(res => {
+        this.books = res.data;
+        console.log("books:");
+        console.log(this.books);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    console.log(this.userLoggedIn);
+
+    axios
+      .get("http://localhost:3000/requisitions?userId=" + this.userLoggedIn)
+      .then(res => {
+        this.requisitions = res.data;
+        console.log("requisitions:");
+        console.log(this.requisitions);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
+
   updated() {
     this.checkCheckboxes();
   },
 
   methods: {
-    achievementReq() {
-      let numberReq = 0;
-
-      for (let i = 0; i < this.requisitions.length; i++) {
-        if (this.requisitions[i].userId == this.userLoggedIn) {
-          numberReq++;
-        }
-      }
-      return numberReq;
-    },
-    achievementRev() {
-      let numberRev = 0;
-
-      for (let i = 0; i < this.reviews.length; i++) {
-        if (this.reviews[i].userId == this.userLoggedIn) {
-          numberRev++;
-        }
-      }
-      console.log(numberRev);
-      return numberRev;
-    },
-    achievementVot() {
-      let numberVot = 0;
-
-      for (let i = 0; i < this.reviews.length; i++) {
-        if (this.reviews[i].userId == this.userLoggedIn) {
-          numberVot += this.reviews[i].upVote.length;
-        }
-      }
-      return numberVot;
-    },
-
     deliverBook(bookID, userID) {
       for (let i = 0; i < this.requisitions.length; i++) {
         if (
@@ -239,40 +247,107 @@ export default {
             ":" +
             currentDate.getMinutes();
           let del = [i, userID, 50, bookID, date]; //Saber a posição e pontos para o user
-          this.$store.dispatch("delivery_book", del);
+          //this.$store.dispatch("delivery_book", del);
+
+          axios
+              .put(
+                "http://localhost:3000/requisitions/" +
+                  this.requisitions[i]._id,
+                {
+                  deliveryDate: date
+                }
+              )
+              .then(res => {
+                console.log(res);
+                this.checkRequesition(this.clickedBook, this.loggedUser);
+              })
+              .catch(error => {
+                console.log(error);
+              });
+            //this.$store.dispatch("delivery_book", del);
+            swal({
+              type: "success",
+              title: "Livro entregado com sucesso."
+            });
+          
+          this.requisitions[i].active = false
         }
       }
     },
+
     editProfile() {
       if (this.clicked) {
         this.clicked = false;
-        this.user.firstName = this.users[this.userLoggedIn].firstName;
-        this.user.lastName = this.users[this.userLoggedIn].lastName;
-        this.user.email = this.users[this.userLoggedIn].email;
-        this.user.photo = this.users[this.userLoggedIn].photo;
-        this.$store.dispatch("edit_profile", {
-          userId: this.userLoggedIn,
-          firstName: this.user.firstName,
-          lastName: this.user.lastName,
-          email: this.user.email,
-          photo: this.user.photo
-        });
+        for (let i = 0; i < this.users.length; i++) {
+          if (this.users[i]._id == this.userLoggedIn) {
+            this.user.firstName = this.users[i].firstName;
+            this.user.lastName = this.users[i].lastName;
+            this.user.email = this.users[i].email;
+            this.user.photo = this.users[i].photo;
+
+            let route = "http://localhost:3000/users/" + this.users[i]._id;
+
+            axios
+              .put(route, {
+                firstName: this.user.firstName,
+                lastName: this.user.lastName,
+                email: this.user.email,
+                photo: this.user.photo
+              })
+              .then(res => {
+                console.log(res);
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          }
+        }
 
         this.testes = [];
+        this.testes2 = [];
         this.user.favTags = [];
         for (let i = 0; i < this.tags.length; i++) {
           console.log("entrou no for do coiso");
           if (document.getElementById(i.toString()).checked) {
             console.log("entrou no if do coiso");
             this.testes.push(this.tags[i].tagDescription);
-            this.user.favTags.push(this.tags[i].tagId);
+            this.user.favTags.push(this.tags[i]._id);
             console.log(this.user.favTags);
           }
         }
-        this.$store.dispatch("update_favtags", [
-          this.userLoggedIn,
-          this.user.favTags
-        ]);
+
+        let route = "http://localhost:3000/users/" + this.userLoggedIn;
+
+        axios
+          .put(route, {
+            favTags: this.user.favTags
+          })
+          .then(res => {
+            console.log("entrou edit tags");
+            console.log(res);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+
+        for (let i = 0; i < this.users.length; i++) {
+          if (this.users[i]._id == this.userLoggedIn) {
+            this.testes = this.user.favTags;
+          }
+        }
+
+        for (let i = 0; i < this.tags.length; i++) {
+          for (let j = 0; j < this.testes.length; j++) {
+            if (this.tags[i]._id == this.testes[j]) {
+              this.testes2.push(this.tags[i].tagDescription);
+            }
+          }
+        }
+
+        // this.$store.dispatch("update_favtags", [
+        //   this.userLoggedIn,
+        //   this.user.favTags
+        // ]);
       } else {
         this.clicked = true;
         // this.users[this.userLoggedIn].firstName = this.user.firstName
@@ -280,30 +355,26 @@ export default {
         // this.users[this.userLoggedIn].email = this.user.email
       }
     },
+
     checkCheckboxes() {
-      for (let i = 0; i < this.tags.length; i++) {
-        for (let j = 0; j < this.user.favTags.length; j++) {
-          if (i == this.user.favTags[j]) {
-            document.getElementById(i.toString()).checked = true;
+      if (this.clicked) {
+        this.user.favTags = this.testes2;
+        console.log(this.user.favTags);
+        for (let i = 0; i < this.tags.length; i++) {
+          for (let j = 0; j < this.user.favTags.length; j++) {
+            if (this.tags[i].tagDescription == this.user.favTags[j]) {
+              document.getElementById(i.toString()).checked = true;
+            }
           }
         }
       }
     },
+
     clickBook(index) {
       for (let i = 0; i < this.books.length; i++) {
         if (this.books[i].bookId === index) {
           this.$store.dispatch("open_book", i);
           this.clickedBook = i;
-        }
-      }
-    },
-
-    addView(id) {
-      console.log("entrou");
-      for (let i = 0; i < this.books.length; i++) {
-        if (this.books[i].bookId === id) {
-          this.$store.dispatch("add_view", i);
-          console.log("oi");
         }
       }
     },

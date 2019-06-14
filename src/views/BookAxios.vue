@@ -27,17 +27,15 @@
             <!-- Info -->
             <div class="col-12 col-md-9">
               <div class="row" style="margin-top:2%">
-                <h1
-                  class="bookInforHeaders alignLeft font-weight-bold"
-                >{{book[0].title}}</h1>
+                <h1 class="bookInforHeaders alignLeft font-weight-bold">{{book[0].title}}</h1>
               </div>
 
               <div class="row">
                 <h4 class="bookInforHeaders alignLeft">{{book[0].author}}</h4>
               </div>
-              
+
               <div class="alignLeft">
-                <i class="fas fa-star" style="color:gold" v-if="bookRating > 0" ></i>
+                <i class="fas fa-star" style="color:gold" v-if="bookRating > 0"></i>
                 <i class="fas fa-star" style="color:lightgrey" v-if="bookRating < 1"></i>
                 <i class="fas fa-star" style="color:gold" v-if="bookRating > 1"></i>
                 <i class="fas fa-star" style="color:lightgrey" v-if="bookRating < 2"></i>
@@ -48,18 +46,13 @@
                 <i class="fas fa-star" style="color:gold" v-if="bookRating > 4"></i>
                 <i class="fas fa-star" style="color:lightgrey" v-if="bookRating < 5"></i>
               </div>
-              
 
               <div class="row mt-4">
                 <h4 class="alignLeft bookInforHeaders">
                   <b>Editora:</b>
+
                   {{book[0].publisher}}
-
                 </h4>
-
-
-                
-
               </div>
 
               <div class="row mt-4">
@@ -69,12 +62,19 @@
 
               <div class="row">
                 <button
-                
                   @click="requesition(pageBookId, loggedUser)"
                   :disabled="buttonActive == false"
                   class="btn buttonColor float-right"
+                  v-if="this.loggedUser != -1"
                 >{{buttonText}}</button>
-                <button class="btn-primary rounded" v-if="this.buttonActive==false" @click="notification(clickedBook, loggedUser)"><i class="fas fa-bell"></i></button>
+
+                <button
+                  class="btn-primary rounded"
+                  v-if="this.buttonActive==false"
+                  @click="notification(clickedBook, loggedUser)"
+                >
+                  <i class="fas fa-bell"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -99,19 +99,54 @@
                 <label for="comment" class="font-weight-bold ml-3" style="font-size:20px">Comment:</label>
 
                 <fieldset class="rate ml-3">
-                  <input class="starInput" id="rate1-star5" type="radio" name="rate1" value="5" v-model="picked">
+                  <input
+                    class="starInput"
+                    id="rate1-star5"
+                    type="radio"
+                    name="rate1"
+                    value="5"
+                    v-model="picked"
+                  >
                   <label class="star" for="rate1-star5" title="Excellent">5</label>
-                  
-                  <input class="starInput" id="rate1-star4" type="radio" name="rate1" value="4" v-model="picked">
+
+                  <input
+                    class="starInput"
+                    id="rate1-star4"
+                    type="radio"
+                    name="rate1"
+                    value="4"
+                    v-model="picked"
+                  >
                   <label class="star" for="rate1-star4" title="Good">4</label>
-                  
-                  <input class="starInput" id="rate1-star3" type="radio" name="rate1" value="3" v-model="picked">
+
+                  <input
+                    class="starInput"
+                    id="rate1-star3"
+                    type="radio"
+                    name="rate1"
+                    value="3"
+                    v-model="picked"
+                  >
                   <label class="star" for="rate1-star3" title="Satisfactory">3</label>
-                  
-                  <input class="starInput" id="rate1-star2" type="radio" name="rate1" value="2" v-model="picked">
+
+                  <input
+                    class="starInput"
+                    id="rate1-star2"
+                    type="radio"
+                    name="rate1"
+                    value="2"
+                    v-model="picked"
+                  >
                   <label class="star" for="rate1-star2" title="Bad">2</label>
-                  
-                  <input class="starInput" id="rate1-star1" type="radio" name="rate1" value="1" v-model="picked">
+
+                  <input
+                    class="starInput"
+                    id="rate1-star1"
+                    type="radio"
+                    name="rate1"
+                    value="1"
+                    v-model="picked"
+                  >
                   <label class="star" for="rate1-star1" title="Very bad">1</label>
                 </fieldset>
               </div>
@@ -130,7 +165,7 @@
       </div>
       <!--Comentarios-->
       <div class="row boxContent">
-        <div class="col-12 col-md-12" v-for="review in reviews" :key="review.reviewId">
+        <div class="col-12 col-md-12" v-for="review in reviews" :key="review._id">
           <!-- User Image-->
           <template>
             <div class="col-3">
@@ -142,9 +177,9 @@
             </div>
             <div class="col-9">
               <!-- Info User -->
-              <div class="row mt-4 ">
-                <h3>{{getInfoFromUser(review.userId).firstName}} {{getInfoFromUser(review.userId).lastName}}</h3>         
-                                                
+              <div class="row mt-4">
+                <h3>{{getInfoFromUser(review.userId).firstName}} {{getInfoFromUser(review.userId).lastName}}</h3>
+
                 <!-- Precisa linha -->
                 <h6 class="ml-5">{{review.date}}</h6>
               </div>
@@ -157,15 +192,24 @@
                 <i class="fas fa-star" style="color:gold" v-if="review.rating > 3"></i>
                 <i class="fas fa-star" style="color:lightgrey" v-if="review.rating < 4"></i>
                 <i class="fas fa-star" style="color:gold" v-if="review.rating > 4"></i>
-                <i class="fas fa-star" style="color:lightgrey" v-if="review.rating < 5"></i></div>
+                <i class="fas fa-star" style="color:lightgrey" v-if="review.rating < 5"></i>
+              </div>
               <!-- Review Info -->
               <div class="row mt-4">
                 <p v-if="verifyEdit==false || review._id != editThatOne">{{review.comment}}</p>
-                <textarea name id cols="30" rows="10" v-if="verifyEdit== true && review._id == editThatOne" v-model="review.comment"></textarea>
+                <textarea
+                  name
+                  id
+                  cols="30"
+                  rows="10"
+                  v-if="verifyEdit== true && review._id == editThatOne"
+                  v-model="review.comment"
+                ></textarea>
               </div>
               <!-- Rating -->
               <div class="row">
-                <button v-if="loggedUser!=-1"
+                <button
+                  v-if="loggedUser!=-1"
                   class="btn-success col-2 ml-2"
                   @click="upVote(review._id, loggedUser,clickedBook)"
                 >
@@ -173,27 +217,33 @@
                   {{review.upVote.length}}
                 </button>
                 <!-- upVote -->
-                <button v-if="loggedUser!=-1"
+                <button
+                  v-if="loggedUser!=-1"
                   class="btn-danger col-2 ml-2"
                   @click="downVote(review._id, loggedUser,clickedBook)"
                 >
                   <i class="fas fa-long-arrow-alt-down"></i>
                   {{review.downVote.length}}
-                </button>  <!-- downVote -->  
+                </button>
+                <!-- downVote -->
 
-                
-                <button v-if="loggedUser == getInfoFromUser(review.userId)._id" class="btn-primary col-2 ml-2" @click="editReview(review._id,review.comment)">
+                <button
+                  v-if="loggedUser == getInfoFromUser(review.userId)._id"
+                  class="btn-primary col-2 ml-2"
+                  @click="editReview(review._id,review.comment)"
+                >
                   <i class="fas fa-edit"></i>
                 </button>
                 <!-- Edit -->
-                <button v-if="loggedUser == getInfoFromUser(review.userId)._id" class="btn-dark col-2 ml-2" @click="deleteReview(review._id)">
+                <button
+                  v-if="loggedUser == getInfoFromUser(review.userId)._id"
+                  class="btn-dark col-2 ml-2"
+                  @click="deleteReview(review._id)"
+                >
                   <i class="fas fa-times"></i>
                 </button>
                 <!-- Trash -->
-              
               </div>
-
-              
 
               <!-- Fazer editar e eliminar -->
             </div>
@@ -376,16 +426,41 @@ export default {
             console.log(error);
           });
 
-        this.$store.dispatch("edit_review", rev);
+        //this.$store.dispatch("edit_review", rev);
       }
     },
     deleteReview(reviewID) {
-      for (let i = 0; i < this.reviews.length; i++) {
-        console.table(this.reviews);
-        if (this.reviews[i].reviewId == reviewID) {
-          this.$store.dispatch("delete_review", i);
+      swal({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          for (let i = 0; i < this.reviews.length; i++) {
+            if (this.reviews[i]._id == reviewID) {
+              let route =
+                "http://localhost:3000/reviews/" + this.reviews[i]._id;
+
+              axios
+                .delete(route)
+                .then(res => {
+                  console.log(res);
+                })
+                .catch(error => {
+                  console.log(error);
+                });
+              this.reviews.splice(i, 1);
+              //this.$store.dispatch("delete_book", i);
+              swal("Deleted!", "Review has been deleted.", "success");
+            }
+          }
         }
-      }
+      });
+      
     },
 
     upVote(reviewID, userID, bookID) {
@@ -478,6 +553,7 @@ export default {
         this.$store.dispatch("up_vote", [reviewID, userID, false, checkUp]);
       }
     },
+
     downVote(reviewID, userID, bookID) {
       let verify = true;
       let checkDown = true;
@@ -572,6 +648,7 @@ export default {
       }
       return all;
     },
+
     checkRequesition(bookID, userID) {
       console.log(userID);
       console.log("^teste");
@@ -653,7 +730,6 @@ export default {
           title: "Livro requisitado com sucesso."
         });
         console.log(req);
-        
       } else {
         for (let i = 0; i < this.requisitions.length; i++) {
           if (
@@ -701,7 +777,7 @@ export default {
               title: "Livro entregado com sucesso."
             });
             //}
-            
+
             console.table(this.users);
             console.table(this.requisitions);
             console.table(this.books);

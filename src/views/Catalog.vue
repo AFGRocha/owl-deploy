@@ -10,7 +10,7 @@
                 <h3 id="filterTitle">Filtros</h3>
               </div>
               <div class="ml-auto mr-4 mt-1">
-                <a v-b-toggle.collapse-1 id="collapse">
+                <a v-b-toggle.collapse-1 v-if="windowWidth <= 990" id="collapse">
                   <i class="fas fa-chevron-down fa-lg"></i>
                 </a>
               </div>
@@ -201,10 +201,14 @@ export default {
       publisherFilter: "Todos",
       tagFilter: "Todos",
       clickedBook: 0,
-      orderTab: ""
+      orderTab: "",
+      windowWidth: 0,
+      window: null
     };
   },
   created() {
+    window.addEventListener("resize", this.handleResize)
+    this.handleResize()
     //Axios mongodb books
     axios
       .get("http://localhost:3000/books")
@@ -372,6 +376,10 @@ export default {
 
       console.log(this.filteredBooks);
       console.log("searched title: " + this.titleFilter);
+    },
+
+    handleResize() {
+      this.windowWidth = window.innerWidth
     }
   },
   computed: {}

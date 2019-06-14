@@ -1,12 +1,13 @@
-const express = require("express")
-const path = require("path")
-const serveStatic = require("serve-static")
-const history = require("connect-history-api-fallback")
-const app = express()
+const express = require('express')
+const port = process.env.PORT || 8080;
+const app = express();
 
-app.use(history())
-app.use("", serveStatic(path.join(__dirname, 'dist')))
-console.log(path.join(__dirname, 'dist'))
-const port = process.env.PORT || 8080
 
-app.listen(port)
+app.use(express.static(__dirname + "/dist/"));
+app.get(/.*/, function (req, res) {
+    res.sendfile(__dirname + "/dist/index.html")
+});
+
+app.listen(port);
+
+console.log("Server running")

@@ -175,7 +175,7 @@ export default {
       });
 
 
-    /* if (this.userLoggedIn != -1) {
+    if (this.userLoggedIn != -1) {
       axios
       .get("http://localhost:3000/requisitions?userId=" + this.userLoggedIn)
       .then(res => {
@@ -186,7 +186,7 @@ export default {
         if (this.userLoggedIn == req.userId && req.active == true) {
           let date1 = new Date(req.requisitionDate).getDate();
           let today = new Date().getDate();
-          "Wed Jun 21 2019 20:29:40 GMT+0100 (Western European Summer Time)"
+         
           if (date1 + 5 < today) {
             //How late
             let bookName = "";
@@ -273,7 +273,7 @@ export default {
       })
       .catch(error => {
         console.log(error);
-      }); */
+      });
 
 
     //this.getNotifications();
@@ -288,7 +288,7 @@ export default {
         if (this.userLoggedIn == req.userId && req.active == true) {
           let date1 = new Date(req.requisitionDate).getDate();
           let today = new Date().getDate();
-          "Wed Jun 21 2019 20:29:40 GMT+0100 (Western European Summer Time)"
+          
           if (date1 + 5 < today) {
             //How late
             let bookName = "";

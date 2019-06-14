@@ -96,9 +96,8 @@
                   <div class="row" style="text-align:left">
                     <div class="col-12 col-md-2">
                       <router-link
-                        v-on:mouseover.native="clickBook(book.bookId)"
-                        @click.native="addView(book.bookId)"
-                        :to="{ name: 'book', params:{id: clickedBook}}"
+                        v-on:mouseover.native="clickBook(book._id)"
+                        :to="{ name: 'book', params:{id: book._id}}"
                       >
                         <img v-bind:src="book.cover" class="owlCovers mt-4 ml-3">
                       </router-link>
@@ -113,7 +112,7 @@
                       <a
                         class="btn buttonColor"
                         style="color:white"
-                        @click="deliverBook(book.bookId, userLoggedIn)"
+                        @click="deliverBook(book._id, userLoggedIn)"
                       >Entregar</a>
                     </div>
                   </div>
@@ -172,7 +171,7 @@
   </div>
 </template>
 
-<style >
+<style>
 .boxContent {
   background-color: #d9b97e;
   height: 260px;
@@ -335,7 +334,30 @@ export default {
             ":" +
             currentDate.getMinutes();
           let del = [i, userID, 50, bookID, date]; //Saber a posição e pontos para o user
-          this.$store.dispatch("delivery_book", del);
+          //this.$store.dispatch("delivery_book", del);
+
+          axios
+              .put(
+                "http://localhost:3000/requisitions/" +
+                  this.requisitions[i]._id,
+                {
+                  deliveryDate: date
+                }
+              )
+              .then(res => {
+                console.log(res);
+                this.checkRequesition(this.clickedBook, this.loggedUser);
+              })
+              .catch(error => {
+                console.log(error);
+              });
+            //this.$store.dispatch("delivery_book", del);
+            swal({
+              type: "success",
+              title: "Livro entregado com sucesso."
+            });
+          
+          this.requisitions[i].active = false
         }
       }
     },
@@ -440,16 +462,6 @@ export default {
         if (this.books[i].bookId === index) {
           this.$store.dispatch("open_book", i);
           this.clickedBook = i;
-        }
-      }
-    },
-
-    addView(id) {
-      console.log("entrou");
-      for (let i = 0; i < this.books.length; i++) {
-        if (this.books[i].bookId === id) {
-          this.$store.dispatch("add_view", i);
-          console.log("oi");
         }
       }
     },
