@@ -242,7 +242,7 @@ export default {
   },
   created() {
     axios
-      .get("http://localhost:3000/users")
+      .get("https://owl-server-pw2.herokuapp.com/users")
       .then(res => {
         this.users = res.data;
         console.log("users:");
@@ -260,7 +260,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/books")
+      .get("https://owl-server-pw2.herokuapp.com/books")
       .then(res => {
         this.books = res.data;
         this.mostViews = this.books.sort(function orderByViews(a, b) {

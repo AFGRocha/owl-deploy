@@ -80,7 +80,7 @@ export default {
 
   created() {
     axios
-      .get("http://localhost:3000/bookSuggestions")
+      .get("https://owl-server-pw2.herokuapp.com/bookSuggestions")
       .then(res => {
         console.log(res.data);
         this.bookSuggestions = res.data;
@@ -97,7 +97,7 @@ export default {
       for (let i = 0; i < this.bookSuggestions.length; i++) {
         if (this.bookSuggestions[i].suggestionTitle == this.form.title) {
           suggestionExists = true;
-          let route = "http://localhost:3000/bookSuggestions/" + this.bookSuggestions[i]._id
+          let route = "https://owl-server-pw2.herokuapp.com/bookSuggestions/" + this.bookSuggestions[i]._id
           axios
             .put(route)
             .then(res => {
@@ -123,7 +123,7 @@ export default {
         console.log("entrou");
 
         axios
-          .post("http://localhost:3000/bookSuggestions", {
+          .post("https://owl-server-pw2.herokuapp.com/bookSuggestions", {
             suggestionTitle: this.form.title,
             suggestionAuthor: this.form.author,
             suggestionCover: this.form.cover,

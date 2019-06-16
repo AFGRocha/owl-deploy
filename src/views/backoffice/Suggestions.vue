@@ -106,7 +106,7 @@ export default {
 
   created() {
     axios
-      .get("http://localhost:3000/bookSuggestions")
+      .get("https://owl-server-pw2.herokuapp.com/bookSuggestions")
       .then(res => {
         this.bookSuggestions = res.data;
         console.log("tags:");
@@ -117,7 +117,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/books")
+      .get("https://owl-server-pw2.herokuapp.com/books")
       .then(res => {
         this.books = res.data;
         console.log("books:");
@@ -128,7 +128,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/users")
+      .get("https://owl-server-pw2.herokuapp.com/users")
       .then(res => {
         this.users = res.data;
         console.log("users:");
@@ -162,7 +162,7 @@ export default {
           for (let i = 0; i < this.bookSuggestions.length; i++) {
             if (this.bookSuggestions[i]._id === id) {
               let route =
-                "http://localhost:3000/bookSuggestions/" +
+                "https://owl-server-pw2.herokuapp.com/bookSuggestions/" +
                 this.bookSuggestions[i]._id;
 
               axios
@@ -213,7 +213,7 @@ export default {
               for (let i = 0; i < this.bookSuggestions.length; i++) {
                 if (this.bookSuggestions[i]._id === id) {
                   let route =
-                    "http://localhost:3000/bookSuggestions/" +
+                    "https://owl-server-pw2.herokuapp.com/bookSuggestions/" +
                     this.bookSuggestions[i]._id;
 
                   axios

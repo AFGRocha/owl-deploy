@@ -251,7 +251,7 @@ export default {
 
   created() {
     axios
-      .get("http://localhost:3000/users")
+      .get("https://owl-server-pw2.herokuapp.com/users")
       .then(res => {
         this.users = res.data;
         console.log("users:");
@@ -269,7 +269,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/tags")
+      .get("https://owl-server-pw2.herokuapp.com/tags")
       .then(res => {
         this.tags = res.data;
         console.log("tags:");
@@ -287,7 +287,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/books")
+      .get("https://owl-server-pw2.herokuapp.com/books")
       .then(res => {
         this.books = res.data;
         console.log("books:");
@@ -299,7 +299,7 @@ export default {
     console.log(this.userLoggedIn);
 
     axios
-      .get("http://localhost:3000/requisitions?userId=" + this.userLoggedIn)
+      .get("https://owl-server-pw2.herokuapp.com/requisitions?userId=" + this.userLoggedIn)
       .then(res => {
         this.requisitions = res.data;
         console.log("requisitions:");
@@ -338,7 +338,7 @@ export default {
 
           axios
               .put(
-                "http://localhost:3000/requisitions/" +
+                "https://owl-server-pw2.herokuapp.com/requisitions/" +
                   this.requisitions[i]._id,
                 {
                   deliveryDate: date
@@ -372,7 +372,7 @@ export default {
             this.user.email = this.users[i].email;
             this.user.photo = this.users[i].photo;
 
-            let route = "http://localhost:3000/users/" + this.users[i]._id;
+            let route = "https://owl-server-pw2.herokuapp.com/users/" + this.users[i]._id;
 
             axios
               .put(route, {
@@ -403,7 +403,7 @@ export default {
           }
         }
 
-        let route = "http://localhost:3000/users/" + this.userLoggedIn;
+        let route = "https://owl-server-pw2.herokuapp.com/users/" + this.userLoggedIn;
 
         axios
           .put(route, {

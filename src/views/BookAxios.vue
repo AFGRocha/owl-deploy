@@ -50,7 +50,6 @@
               <div class="row mt-4">
                 <h4 class="alignLeft bookInforHeaders">
                   <b>Editora:</b>
-
                   {{book[0].publisher}}
                 </h4>
               </div>
@@ -389,15 +388,26 @@ export default {
         };
         console.table(newR);
         axios
-          .post("http://localhost:3000/reviews", newR)
+          .post("https://owl-server-pw2.herokuapp.com/reviews", newR)
           .then(res => {
             console.log("entrou");
             console.log(res);
-            this.reviews.push(newR);
+            axios
+              .get("https://owl-server-pw2.herokuapp.com/reviews?bookId=" + this.$route.params.id)
+              .then(res => {
+               
+                this.reviews = res.data;
+              })
+              .catch(error => {
+                console.log(error);
+              });
           })
           .catch(error => {
             console.log(error);
           });
+
+        this.reviews.push(newR);
+        
 
         //this.$store.dispatch("do_review", newR);
         this.picked = 0;
@@ -413,7 +423,7 @@ export default {
       } else {
         this.verifyEdit = false;
         let rev = [reviewID, comment];
-        let route = "http://localhost:3000/reviews/" + reviewID;
+        let route = "https://owl-server-pw2.herokuapp.com/reviews/" + reviewID;
 
         axios
           .put(route, {
@@ -443,7 +453,7 @@ export default {
           for (let i = 0; i < this.reviews.length; i++) {
             if (this.reviews[i]._id == reviewID) {
               let route =
-                "http://localhost:3000/reviews/" + this.reviews[i]._id;
+                "https://owl-server-pw2.herokuapp.com/reviews/" + this.reviews[i]._id;
 
               axios
                 .delete(route)
@@ -454,13 +464,13 @@ export default {
                   console.log(error);
                 });
               this.reviews.splice(i, 1);
+              this.reviewCheck = 0
               //this.$store.dispatch("delete_book", i);
               swal("Deleted!", "Review has been deleted.", "success");
             }
           }
         }
       });
-      
     },
 
     upVote(reviewID, userID, bookID) {
@@ -468,7 +478,7 @@ export default {
       let checkUp = true;
       let reviewUpvotes = [];
       let reviewDownvotes = [];
-      let route = "http://localhost:3000/reviews/" + reviewID;
+      let route = "https://owl-server-pw2.herokuapp.com/reviews/" + reviewID;
 
       for (let i = 0; i < this.reviews.length; i++) {
         if (this.reviews[i]._id == reviewID) {
@@ -559,7 +569,7 @@ export default {
       let checkDown = true;
       let reviewUpvotes = [];
       let reviewDownvotes = [];
-      let route = "http://localhost:3000/reviews/" + reviewID;
+      let route = "https://owl-server-pw2.herokuapp.com/reviews/" + reviewID;
 
       for (let i = 0; i < this.reviews.length; i++) {
         if (this.reviews[i]._id == reviewID) {
@@ -713,7 +723,7 @@ export default {
         let reqs = [req, bookID];
         console.table(this.requisitions);
         axios
-          .post("http://localhost:3000/requisitions", req)
+          .post("https://owl-server-pw2.herokuapp.com/requisitions", req)
           .then(res => {
             console.log("entrou");
             console.log(res);
@@ -758,7 +768,7 @@ export default {
             console.log("antes de entregar : " + this.requisitions[i]._id);
             axios
               .put(
-                "http://localhost:3000/requisitions/" +
+                "https://owl-server-pw2.herokuapp.com/requisitions/" +
                   this.requisitions[i]._id,
                 {
                   deliveryDate: date
@@ -792,12 +802,12 @@ export default {
   },
   computed: {},
   beforeMount() {
-    let route = "http://localhost:3000/books?id=" + this.$route.params.id;
+    let route = "https://owl-server-pw2.herokuapp.com/books?id=" + this.$route.params.id;
     let reviewRoute =
-      "http://localhost:3000/reviews?bookId=" + this.$route.params.id;
+      "https://owl-server-pw2.herokuapp.com/reviews?bookId=" + this.$route.params.id;
 
     let requistionRoute =
-      "http://localhost:3000/requisitions?userId=" + this.userLoggedIn;
+      "https://owl-server-pw2.herokuapp.com/requisitions?userId=" + this.userLoggedIn;
     //Axios mongodb
     axios
       .get(route)
@@ -824,7 +834,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/users")
+      .get("https://owl-server-pw2.herokuapp.com/users")
       .then(res => {
         console.log("teste");
         console.log(res.data);

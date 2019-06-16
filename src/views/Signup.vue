@@ -143,7 +143,7 @@ export default {
   },
   data: function() {
     return {
-      url: "http://localhost:3000/",
+      url: "https://owl-server-pw2.herokuapp.com/",
       firstName: "",
       lastName: "",
       email: "",

@@ -211,7 +211,7 @@ export default {
     this.handleResize()
     //Axios mongodb books
     axios
-      .get("http://localhost:3000/books")
+      .get("https://owl-server-pw2.herokuapp.com/books")
       .then(res => {
         this.books = res.data;
         this.filteredBooks = res.data;
@@ -235,7 +235,7 @@ export default {
 
     //Axios mongodb tags
     axios
-      .get("http://localhost:3000/tags")
+      .get("https://owl-server-pw2.herokuapp.com/tags")
       .then(res => {
         this.tags = res.data;
         

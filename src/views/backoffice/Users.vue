@@ -116,7 +116,7 @@ export default {
 
   created() {
     axios
-      .get("http://localhost:3000/users")
+      .get("https://owl-server-pw2.herokuapp.com/users")
       .then(res => {
         this.users = res.data;
         this.filteredUsers = res.data;
@@ -129,7 +129,7 @@ export default {
   },
 
   // async mounted() {
-  //   this.filteredUsers = (await axios.get("http://localhost:3000/users")).data
+  //   this.filteredUsers = (await axios.get("https://owl-server-pw2.herokuapp.com/users")).data
   //   console.log(this.filteredUsers)
   // },
 
@@ -147,7 +147,7 @@ export default {
         if (result.value) {
           for (let i = 0; i < this.users.length; i++) {
             if (this.users[i]._id === id) {
-              let route = "http://localhost:3000/users/" + this.users[i]._id;
+              let route = "https://owl-server-pw2.herokuapp.com/users/" + this.users[i]._id;
 
               axios
                 .delete(route)
@@ -170,7 +170,7 @@ export default {
       console.log(id);
       for (let i = 0; i < this.users.length; i++) {
         if (this.users[i]._id === id) {
-          let route = "http://localhost:3000/users/" + this.users[i]._id;
+          let route = "https://owl-server-pw2.herokuapp.com/users/" + this.users[i]._id;
 
           axios
             .put(route, {
@@ -195,7 +195,7 @@ export default {
     deleteAdmin(id) {
       for (let i = 0; i < this.users.length; i++) {
         if (this.users[i]._id === id) {
-          let route = "http://localhost:3000/users/" + this.users[i]._id;
+          let route = "https://owl-server-pw2.herokuapp.com/users/" + this.users[i]._id;
 
           axios
             .put(route, {
@@ -221,7 +221,7 @@ export default {
     letRequest(id) {
       for (let i = 0; i < this.users.length; i++) {
         if (this.users[i]._id === id) {
-          let route = "http://localhost:3000/users/" + this.users[i]._id;
+          let route = "https://owl-server-pw2.herokuapp.com/users/" + this.users[i]._id;
 
           axios
             .put(route, {
@@ -246,7 +246,7 @@ export default {
     denyRequest(id) {
       for (let i = 0; i < this.users.length; i++) {
         if (this.users[i]._id === id) {
-          let route = "http://localhost:3000/users/" + this.users[i]._id;
+          let route = "https://owl-server-pw2.herokuapp.com/users/" + this.users[i]._id;
 
           axios
             .put(route, {

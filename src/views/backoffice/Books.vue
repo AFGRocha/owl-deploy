@@ -228,7 +228,7 @@ export default {
 
   created() {
     axios
-      .get("http://localhost:3000/books")
+      .get("https://owl-server-pw2.herokuapp.com/books")
       .then(res => {
         this.books = res.data;
         this.filteredBooks = res.data;
@@ -295,7 +295,7 @@ export default {
           } else {
             this.editBool = true;
             this.editID = i;
-            let route = "http://localhost:3000/books/" + this.books[i]._id;
+            let route = "https://owl-server-pw2.herokuapp.com/books/" + this.books[i]._id;
 
             axios
               .put(route, {
@@ -353,7 +353,7 @@ export default {
         if (result.value) {
           for (let i = 0; i < this.books.length; i++) {
             if (this.books[i]._id === id) {
-              let route = "http://localhost:3000/books/" + this.books[i]._id;
+              let route = "https://owl-server-pw2.herokuapp.com/books/" + this.books[i]._id;
           
               axios
                 .delete(route)
@@ -374,7 +374,7 @@ export default {
 
     addBook() {
       axios
-        .post("http://localhost:3000/books", {
+        .post("https://owl-server-pw2.herokuapp.com/books", {
           cover: this.form.cover,
           title: this.form.title,
           author: this.form.author,

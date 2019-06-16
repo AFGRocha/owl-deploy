@@ -118,7 +118,7 @@ export default {
   created() {
     console.log("entrou");
     axios
-      .get("http://localhost:3000/tags")
+      .get("https://owl-server-pw2.herokuapp.com/tags")
       .then(res => {
         this.tags = res.data;
         this.filteredTags = res.data;
@@ -168,7 +168,7 @@ export default {
         });
       } else if (b) {
         this.editBool = true;
-        let route = "http://localhost:3000/tags/" + this.tags[storeEditId]._id;
+        let route = "https://owl-server-pw2.herokuapp.com/tags/" + this.tags[storeEditId]._id;
         console.log(this.tags[storeEditId]._id);
         axios
           .put(route, {
@@ -205,7 +205,7 @@ export default {
         if (result.value) {
           for (let i = 0; i < this.tags.length; i++) {
             if (this.tags[i]._id === id) {
-              let route = "http://localhost:3000/tags/" + this.tags[i]._id;
+              let route = "https://owl-server-pw2.herokuapp.com/tags/" + this.tags[i]._id;
               console.log("entrou");
               axios
                 .delete(route)
@@ -239,7 +239,7 @@ export default {
         document.getElementById("formTags").reset();
       } else {
         axios
-          .post("http://localhost:3000/tags", {
+          .post("https://owl-server-pw2.herokuapp.com/tags", {
             tagDescription: this.tag,
             
           })

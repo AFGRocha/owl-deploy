@@ -138,8 +138,7 @@ export default {
       if (a >= 0 && a < 3) {
         //Requisições
         for (let i = 0; i < this.requisitions.length; i++) {
-          console.log(this.requisitions[i].userId )
-          console.log(this.userLoggedIn)
+         
           if (this.requisitions[i].userId == this.userLoggedIn) {
             number++;
           }
@@ -176,7 +175,7 @@ export default {
       if (number >= n) {
         text = 100 + "%";
         percent = 100;
-        console.log(percent);
+        
         let test = false
         for (let i = 0; i < this.achComplete.length; i++) {
           if(this.achComplete[i]==a){
