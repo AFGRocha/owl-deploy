@@ -107,7 +107,7 @@ export default {
         email: "",
         password: ""
       },
-      url: "http://localhost:3000/",
+      url: "https://owl-server-pw2.herokuapp.com/",
       success: 0
     };
   },

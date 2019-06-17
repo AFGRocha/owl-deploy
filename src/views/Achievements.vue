@@ -207,7 +207,7 @@ export default {
     this.achievements = this.$store.state.achievements;
 
     axios
-      .get("http://localhost:3000/users")
+      .get("https://owl-server-pw2.herokuapp.com/users")
       .then(res => {
         this.users = res.data;
         console.log("users:");
@@ -218,7 +218,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/books")
+      .get("https://owl-server-pw2.herokuapp.com/books")
       .then(res => {
         this.books = res.data;
         console.log("books:");
@@ -229,7 +229,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/reviews")
+      .get("https://owl-server-pw2.herokuapp.com/reviews")
       .then(res => {
         this.reviews = res.data;
         console.log("reviews:");
@@ -241,7 +241,7 @@ export default {
 
     console.log(this.userLoggedIn)
     axios
-      .get("http://localhost:3000/requisitions?userId=" + this.userLoggedIn)
+      .get("https://owl-server-pw2.herokuapp.com/requisitions?userId=" + this.userLoggedIn)
       .then(res => {
         this.requisitions = res.data;
         console.log("requisitions:");
